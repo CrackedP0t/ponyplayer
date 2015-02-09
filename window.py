@@ -33,7 +33,7 @@ class MainWindow(Gtk.Window):
         self.controlbox.pack_end(self.volumebutton, True, True, 0)
 
         self.topbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.topbox.pack_start(self.infolabel, True, True, 0)
+        self.topbox.pack_start(self.infolabel, False, False, 0)
         self.topbox.pack_end(self.controlbox, True, True, 0)
 
         self.tree = StationView()
@@ -79,6 +79,8 @@ class MainWindow(Gtk.Window):
     def reload(self):
         self.tree.get_model().reload()
         selected = self.tree.get_selection().get_selected()
-        # if selected:
-            # self.infolabel.set_text(selected[0][selected[1]][2] + "\n" + selected[0][selected[1]][3])
+        # try:
+        if selected[1]:
+            self.infolabel.set_text(selected[0][selected[1]][2] + "\n" + selected[0][selected[1]][3])
+
         return True
