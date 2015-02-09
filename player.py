@@ -10,6 +10,16 @@ class Player():
 
         self.pipeline = Gst.ElementFactory.make("playbin", "player")
         self.pipeline.set_property("volume", 1.0)
+
+        goom = Gst.ElementFactory.make("goom")
+        flags = self.pipeline.get_property("flags")
+
+        # print(flags)
+        flags |= 0x00000008
+        self.pipeline.set_property("flags", flags)
+
+        self.pipeline.set_property("vis-plugin", goom)
+
         self.pipeline.set_state(Gst.State.NULL)
 
     def start(self):

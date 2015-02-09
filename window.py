@@ -68,7 +68,7 @@ class MainWindow(Gtk.Window):
         self.playpausebutton.set_sensitive(True)
         selected = selection.get_selected()
 
-        if selected:
+        if selected[1]:
             self.player.change_uri(selected[0][selected[1]][1])
 
             self.infolabel.set_text(selected[0][selected[1]][2] + "\n" + selected[0][selected[1]][3])
