@@ -54,10 +54,17 @@ class MainWindow(Gtk.Window):
         self.set_icon_from_file("pvllogo.png")
 
         self.connect("delete-event", Gtk.main_quit)
+        self.connect("key-press-event", self.key_pressed)
         self.show_all()
         Gtk.main()
 
-    def playpause_clicked(self, button):
+        
+    def key_pressed(self, widget, event):
+        key = Gdk.keyval_name(event.keyval)
+        if key == "space":
+            self.playpause_clicked()
+
+    def playpause_clicked(self, button=None):
         self.playing = not self.playing
         if self.playing:
             image = Gtk.Image.new_from_icon_name("media-playback-pause", Gtk.IconSize.LARGE_TOOLBAR)
@@ -83,7 +90,6 @@ class MainWindow(Gtk.Window):
     def reload(self):
         self.tree.get_model().reload()
         selected = self.tree.get_selection().get_selected()
-        # try:
         if selected[1]:
             self.infolabel.set_text(selected[0][selected[1]][2] + "\n" + selected[0][selected[1]][3])
 

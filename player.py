@@ -29,22 +29,22 @@ class Player():
 
     def start(self):
         self.pipeline.set_state(Gst.State.PLAYING)
-        self.state = Gst.State.PLAYING
         self.sink.set_window_handle(self.drawingarea.get_property('window').get_xid())
 
     def stop(self):
-        self.state = Gst.State.NULL
         self.pipeline.set_state(Gst.State.NULL)
 
     def change_uri(self, uri):
-        oldstate = self.state
-        self.stop()
+        self.pipeline.set_state(Gst.State.NULL)
         self.pipeline.set_property("uri", uri)
-        self.start()
-        self.pipeline.set_state(oldstate)
+        self.pipeline.set_state(Gst.State.PLAYING)
+        self.sink.set_window_handle(self.drawingarea.get_property('window').get_xid())
 
     def set_volume(self, value):
         self.pipeline.set_property("volume", value)
 
     def on_drawingarea_realized(self, sender):
+        allocation = self.drawingarea.get_allocation()
+        self.drawingarea.set_size_request(allocation.width, allocation.width)
+
         self.sink.set_window_handle(self.drawingarea.get_property('window').get_xid())

@@ -52,7 +52,3 @@ class StationStore(Gtk.ListStore):
                         v["current_song"]["artist"], v["current_song"]["title"]])
         except:
             print("oh no!")
-
-
-
-
