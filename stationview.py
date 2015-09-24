@@ -30,25 +30,21 @@ class StationStore(Gtk.ListStore):
         self.reload()
 
     def reload(self):
-        try:
-            response = requests.get(self.apiUrl)
-            data = response.json()
-            result = data["result"]
+        response = requests.get(self.apiUrl)
+        data = response.json()
+        result = data["result"]
 
-            for k in result:
-                v = result[k]
-                found = False
-                for row in self:
-                    # print(row)
-                    if row[0] == v["station"]["name"]:
-                        found = True
-                        row[2] = v["current_song"]["artist"]
-                        row[3] = v["current_song"]["title"]
-                        # if v["status"] != "online" or v["station"]["category"] != "audio":
-                        #     row.slice()
+        for k in result:
+            v = result[k]
+            found = False
+            for row in self:
+                if row[0] == v["station"]["name"]:
+                    found = True
+                    row[2] = v["current_song"]["artist"]
+                    row[3] = v["current_song"]["title"]
+                    # if v["status"] != "online" or v["station"]["category"] != "audio":
+                    #     row.slice()
 
-                if v["status"] == "online" and v["station"]["category"] == "audio" and not found:
-                    self.append([v["station"]["name"], v["station"]["stream_url"],
-                        v["current_song"]["artist"], v["current_song"]["title"]])
-        except:
-            print("oh no!")
+            if v["status"] == "online" and v["station"]["category"] == "audio" and not found:
+                self.append([v["station"]["name"], v["station"]["stream_url"],
+                    v["current_song"]["artist"], v["current_song"]["title"]])
