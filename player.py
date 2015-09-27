@@ -35,10 +35,9 @@ class Player():
         self.pipeline.set_state(Gst.State.NULL)
 
     def change_uri(self, uri):
-        self.pipeline.set_state(Gst.State.NULL)
+        self.stop()
         self.pipeline.set_property("uri", uri)
-        self.pipeline.set_state(Gst.State.PLAYING)
-        self.sink.set_window_handle(self.drawingarea.get_property('window').get_xid())
+        self.start()
 
     def set_volume(self, value):
         self.pipeline.set_property("volume", value)
